@@ -9,10 +9,7 @@ interface Book {
   price: number;
   summary: string;
   title: string;
-  purchase_links: {
-    amazon: string;
-    lafeltrinelli: string;
-  };
+  url: string;
 }
 
 interface Message {
@@ -127,7 +124,7 @@ const ChatBot = () => {
               <div
                 className={cn(
                   "rounded-lg p-3",
-                  message.isBot ? "bg-gray-100 max-w-[800px]" : "bg-[#8359E3] max-w-[360px]"
+                  message.isBot ? "bg-gray-100 max-w-[800px]" : "bg-[#8359E3] text-white max-w-[360px]"
                 )}
               >
                 {/* Show text for all messages except bot messages with books */}
@@ -149,24 +146,14 @@ const ChatBot = () => {
                         <p className="text-[14px] text-black">👨‍⚕️ {book.author.join(', ')}</p>
                         <p className="text-[14px] font-bold text-[#8359E3]">💰 €{book.price.toFixed(2)}</p>
                         <p className="text-[14px] mt-1 text-black line-clamp-2">📚{book.summary}</p>
-                        <div className="flex gap-2 mt-2">
-                          <a 
-                            href={book.purchase_links.amazon} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="flex-1 bg-[#FF9900] text-white text-center py-2 px-4 rounded-lg hover:bg-[#E68A00] transition-colors"
-                          >
-                            Buy on Amazon
-                          </a>
-                          <a 
-                            href={book.purchase_links.lafeltrinelli} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="flex-1 bg-[#8359E3] text-white text-center py-2 px-4 rounded-lg hover:bg-[#724fd0] transition-colors"
-                          >
-                            Buy on LaFeltrinelli
-                          </a>
-                        </div>
+                        <a 
+                          href={book.url} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="font-bold text-[#8359E3] hover:underline inline-block mt-2"
+                        >
+                          buy now
+                        </a>
                       </div>
                     ))}
                   </div>
@@ -192,7 +179,7 @@ const ChatBot = () => {
         {/* Input */}
         <form onSubmit={handleSubmit} className="bg-white border-t p-4">
           <div className="flex gap-2">
-            <textarea
+          <textarea
               ref={textareaRef}
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -204,7 +191,7 @@ const ChatBot = () => {
             />
             <button
               type="submit"
-              className="bg-[#8359E3] text-white p-2 rounded-lg hover:bg-[#724fd0] transition-colors disabled:opacity-50 self-end"
+              className="bg-[#8359E3] text-white p-2 rounded-lg hover:bg-[#724fd0] transition-colors disabled:opacity-50"
               disabled={!input.trim() || isLoading}
             >
               <Send size={20} />
